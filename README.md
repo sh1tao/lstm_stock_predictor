@@ -55,7 +55,7 @@ Siga os passos abaixo para configurar o projeto localmente.
 3.  Instale as dependências:
 
    ```bash
-    pip install -r requirements.txt
+    pip install -r apirequirements.txt
    ```
 4.  Baixe o modelo pré-treinado (se necessário):
 
