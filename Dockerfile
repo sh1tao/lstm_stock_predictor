@@ -5,10 +5,10 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Copia os arquivos de requisitos para o contêiner
-COPY requirements.txt .
+COPY api_requirements.txt .
 
 # Instala as dependências do projeto
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r api_requirements.txt
 
 # Copia o código do projeto para o contêiner
 COPY . .
