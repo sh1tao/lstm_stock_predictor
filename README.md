@@ -42,7 +42,7 @@ Siga os passos abaixo para configurar o projeto localmente.
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/lstm-stock-prediction-api.git
+   git clone https://github.com/sh1tao/lstm-stock-prediction-api.git
    cd lstm-stock-prediction-api
    ```
    
@@ -176,11 +176,11 @@ Esse `README.md` cobre os principais aspectos de um projeto Flask, incluindo a d
 
 Para dúvidas ou sugestões, entre em contato:
 
-- Nome: Seu Nome
+- Nome: Washington da Silva Santos
 
-- Email: [seu-email@example.com](mailto:seu-email@example.com)
+- Email: [wssantos1993@gmail.com](mailto:wssantos1993@gmail.com)
 
-- GitHub: [Seu Usuario](https://github.com/seu-usuario)
+- GitHub: [sh1tao](https://github.com/sh1tao)
 ---
 ## Agradecimentos
 
