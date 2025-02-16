@@ -43,28 +43,29 @@ Siga os passos abaixo para configurar o projeto localmente.
    ```bash
    git clone https://github.com/seu-usuario/lstm-stock-prediction-api.git
    cd lstm-stock-prediction-api
+   ```
    
 2.  Crie um ambiente virtual (opcional, mas recomendado):
 
    ```bash
     python -m venv venv
     source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
-  
+    ```
 3.  Instale as dependências:
 
    ```bash
     pip install -r requirements.txt
-
+    ```
 4.  Baixe o modelo pré-treinado (se necessário):
 
     ````bash
     # Coloque o arquivo lstm_stock_model.pth na raiz do projeto
-
+    ````
 5.  Execute a API:
 
-    ````bash
+    ```bash
     python app.py
-    ````
+    ```
 A API estará disponível em http://localhost:5000.
 
 ---
