@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"  # Mapeia a porta 5000 do contêiner para a porta 5000 do host
+    volumes:
+      - .:/app  # Monta o diretório atual no contêiner (útil para desenvolvimento)
+    environment:
+      - FLASK_ENV=development  # Define o ambiente como desenvolvimento
+    command: python app.py  # Comando para rodar a API
