@@ -74,6 +74,7 @@ A API estará disponível em http://localhost:5000.
 
 ```` bash
 docker-compose build
+docker-compose up
 ````
 A API estará disponível em http://localhost:5000.
 
