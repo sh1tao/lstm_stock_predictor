@@ -9,7 +9,7 @@ from waitress import serve
 # Configuração do Flask
 app = Flask(__name__)
 
-# Configuração do Flask-MonitoringDashboard
+# Configugit ração do Flask-MonitoringDashboard
 bind(app)
 
 # Configuração do Swagger-UI
@@ -17,6 +17,7 @@ SWAGGER_URL = "/api/docs"
 API_URL = "/static/swagger.yaml"
 swaggerui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
 
 # Definição do modelo LSTM
 class LSTM(torch.nn.Module):
@@ -34,6 +35,7 @@ class LSTM(torch.nn.Module):
         out = self.fc(out[:, -1, :])
         return out
 
+
 # Parâmetros do modelo
 input_size = 5
 hidden_size = 50
@@ -47,6 +49,7 @@ model.eval()  # Colocar o modelo em modo de avaliação
 
 # Inicializar o scaler
 scaler = MinMaxScaler(feature_range=(0, 1))
+
 
 # Rota da API para previsões
 @app.route("/predict", methods=["POST"])
@@ -76,10 +79,12 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
 # Função para iniciar o servidor com Waitress
 def start_server():
     print("Iniciando servidor Waitress...")
     serve(app, host="0.0.0.0", port=5000)  # Usar Waitress para servir a aplicação
+
 
 # Ponto de entrada
 if __name__ == "__main__":

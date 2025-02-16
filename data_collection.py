@@ -1,5 +1,4 @@
 import yfinance as yf
-import pandas as pd
 
 # Lista das ações a serem analisadas
 symbols = ['TSLA']
