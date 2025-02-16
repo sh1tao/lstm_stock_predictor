@@ -7,3 +7,4 @@ pandas~=2.2.3
 requests~=2.31.0
 mlflow~=2.20.2
 yfinance~=0.2.53
+flask_monitoringdashboard
