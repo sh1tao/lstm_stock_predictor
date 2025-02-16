@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: LSTM Stock Price Prediction API
+  description: API para previsão de preços de ações usando LSTM.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /predict:
+    post:
+      summary: Prever preços futuros
+      description: Recebe dados históricos e retorna previsões de preços futuros.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+                  example:
+                    - [1.0, 2.0, 3.0, 4.0, 5.0]
+                    - [1.1, 2.1, 3.1, 4.1, 5.1]
+                    - [1.2, 2.2, 3.2, 4.2, 5.2]
+      responses:
+        200:
+          description: Retorna a previsão dos preços
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prediction:
+                    type: array
+                    items:
+                      type: number
+                    example: [100.5, 101.2, 102.0]
+        400:
+          description: Erro ao processar os dados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao processar os dados."

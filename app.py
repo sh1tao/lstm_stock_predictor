@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_monitoringdashboard import bind
+from flask_swagger_ui import get_swaggerui_blueprint
 import torch
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -8,10 +9,16 @@ from waitress import serve
 # Configuração do Flask
 app = Flask(__name__)
 
-# Configura o Flask-MonitoringDashboard
+# Configuração do Flask-MonitoringDashboard
 bind(app)
 
-# Carregar o modelo
+# Configuração do Swagger-UI
+SWAGGER_URL = "/api/docs"
+API_URL = "/static/swagger.yaml"
+swaggerui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+# Definição do modelo LSTM
 class LSTM(torch.nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, output_size):
         super(LSTM, self).__init__()
@@ -33,76 +40,24 @@ hidden_size = 50
 num_layers = 2
 output_size = 5
 
-# Instanciar o modelo
+# Carregar o modelo treinado
 model = LSTM(input_size, hidden_size, num_layers, output_size)
-model.load_state_dict(torch.load('lstm_stock_model.pth'))
+model.load_state_dict(torch.load("lstm_stock_model.pth"))
 model.eval()  # Colocar o modelo em modo de avaliação
 
-# Carregar o scaler (se necessário)
+# Inicializar o scaler
 scaler = MinMaxScaler(feature_range=(0, 1))
 
 # Rota da API para previsões
-@app.route('/predict', methods=['POST'])
+@app.route("/predict", methods=["POST"])
 def predict():
-    """
-    Faz a previsão dos preços futuros com base nos dados históricos.
-    ---
-    tags:
-      - Previsão
-    summary: Prever preços futuros
-    description: |
-      Este endpoint recebe dados históricos de preços de ações e retorna a previsão dos preços para os próximos dias.
-      Os dados devem ser fornecidos em formato JSON, contendo uma lista de listas com os valores de 'Close', 'High', 'Low', 'Open' e 'Volume'.
-    operationId: predictPrices
-    consumes:
-      - application/json
-    produces:
-      - application/json
-    parameters:
-      - in: body
-        name: body
-        required: true
-        description: Dados históricos para previsão
-        schema:
-          type: object
-          properties:
-            data:
-              type: array
-              items:
-                type: array
-                items:
-                  type: number
-                example: [1.0, 2.0, 3.0, 4.0, 5.0]
-              example:
-                - [1.0, 2.0, 3.0, 4.0, 5.0]
-                - [1.1, 2.1, 3.1, 4.1, 5.1]
-                - [1.2, 2.2, 3.2, 4.2, 5.2]
-    responses:
-      200:
-        description: Previsão dos preços futuros
-        schema:
-          type: object
-          properties:
-            prediction:
-              type: array
-              items:
-                type: number
-              example: [100.5, 101.2, 102.0]
-      400:
-        description: Erro na requisição
-        schema:
-          type: object
-          properties:
-            error:
-              type: string
-              example: "Erro ao processar os dados."
-    """
+    """Faz a previsão dos preços futuros com base nos dados históricos."""
     try:
         # Receber os dados da requisição
-        data = request.json['data']  # Espera-se uma lista de listas com os dados históricos
+        data = request.json["data"]  # Espera-se uma lista de listas com os dados históricos
         data = np.array(data)
 
-        # Normalizar os dados (se necessário)
+        # Normalizar os dados
         scaled_data = scaler.fit_transform(data)
 
         # Converter para tensor
@@ -112,19 +67,20 @@ def predict():
         with torch.no_grad():
             prediction = model(input_tensor).cpu().numpy()
 
-        # Desnormalizar a previsão (se necessário)
+        # Desnormalizar a previsão
         prediction_denormalized = scaler.inverse_transform(prediction)
 
         # Retornar a previsão como JSON
         return jsonify({"prediction": prediction_denormalized.tolist()})
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
 # Função para iniciar o servidor com Waitress
 def start_server():
     print("Iniciando servidor Waitress...")
-    serve(app, host='0.0.0.0', port=5000)  # Usar Waitress para servir a aplicação
+    serve(app, host="0.0.0.0", port=5000)  # Usar Waitress para servir a aplicação
 
 # Ponto de entrada
-if __name__ == '__main__':
+if __name__ == "__main__":
     start_server()
