@@ -17,6 +17,7 @@ Este projeto implementa uma API para previsão de preços de ações usando um m
 
 ---
 
+
 ## Visão Geral
 
 O projeto consiste em:
