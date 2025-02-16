@@ -8,7 +8,7 @@ WORKDIR /app
 COPY apirequirements.txt .
 
 # Instala as dependências do projeto
-RUN pip install --no-cache-dir -r api_requirements.txt
+RUN pip install --no-cache-dir -r apirequirements.txt
 
 # Copia o código do projeto para o contêiner
 COPY . .

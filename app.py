@@ -19,6 +19,7 @@ API_URL = "/static/swagger.yaml"
 swaggerui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
+
 # Definição do modelo LSTM
 class LSTM(torch.nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, output_size):
@@ -34,6 +35,7 @@ class LSTM(torch.nn.Module):
         out, _ = self.lstm(x, (h0, c0))
         out = self.fc(out[:, -1, :])
         return out
+
 
 # Parâmetros do modelo
 input_size = 5
@@ -53,6 +55,7 @@ scaler = MinMaxScaler(feature_range=(0, 1))
 predict_counter = metrics.counter(
     "predict_requests", "Número de requisições na rota /predict"
 )
+
 
 # Rota da API para previsões
 @app.route("/predict", methods=["POST"])
@@ -84,10 +87,12 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
 # Função para iniciar o servidor com Waitress
 def start_server():
     print("Iniciando servidor Waitress...")
     serve(app, host="0.0.0.0", port=5000)  # Usar Waitress para servir a aplicação
+
 
 # Ponto de entrada
 if __name__ == "__main__":
