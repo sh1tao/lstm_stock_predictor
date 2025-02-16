@@ -64,10 +64,11 @@ Siga os passos abaixo para configurar o projeto localmente.
 
     ````bash
     python app.py
-
+    ````
 A API estará disponível em http://localhost:5000.
 
 ---
+
 ## Docker
 
 ```` bash
